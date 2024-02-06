@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostsResource;
+use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -11,15 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json('Test');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return PostsResource::collection(
+            Post::where('user_id', Auth::user()->id)->with('categories')->get()
+        );
     }
 
     /**

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->text('content')->nullable();
-            $table->string('status');
+            $table->string('status')->default('draft');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

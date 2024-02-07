@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,5 +34,14 @@ class Post extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updating(function ($post) {
+            $post->slug = SlugService::createSlug($post, 'slug', $post->title);
+        });
     }
 }
